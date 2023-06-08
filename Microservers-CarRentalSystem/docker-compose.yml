@@ -40,6 +40,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       DATA_BASE_PORT: "5432"
       DATA_BASE_NAME: "rentals"
@@ -140,6 +142,11 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
       KAFKA_MIN_INSYNC_REPLICAS: '1'
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "kafka:9092", "--list"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
   init-kafka:
     image: confluentinc/cp-kafka:latest
