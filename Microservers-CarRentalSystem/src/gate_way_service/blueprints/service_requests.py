@@ -1,9 +1,9 @@
 import requests
 
 
-def get_data_from_service(service_url, headers={}, timeout=5):
+def get_data_from_service(service_url, headers={}, timeout=5, data={}):
     try:
-        response = requests.get(service_url, timeout=timeout, headers=headers)
+        response = requests.get(service_url, timeout=timeout, headers=headers, data=data)
         return response
     except:
         return None
@@ -17,9 +17,9 @@ def post_data_from_service(service_url, headers={}, timeout=5, data={}):
         return None
 
 
-def delete_data_from_service(service_url, headers={}, timeout=5):
+def delete_data_from_service(service_url, headers={}, timeout=5, data={}):
     try:
-        response = requests.delete(service_url, timeout=timeout, headers=headers)
+        response = requests.delete(service_url, timeout=timeout, headers=headers,  json=data)
         return response
     except:
         return None

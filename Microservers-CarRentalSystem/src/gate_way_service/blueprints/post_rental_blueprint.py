@@ -39,7 +39,7 @@ def clear_headers(headers: dict) -> dict:
 @post_rentals_blueprint.route('/api/v1/rental/', methods=['POST'])
 @token_required
 async def post_rentals(data) -> Response:
-    username = data.get('first_name')
+    username = data.get('email')
     body, errors = validate_body(await request.body)
     if len(errors) > 0:
         return Response(
@@ -70,10 +70,10 @@ async def post_rentals(data) -> Response:
     car = response.json()
     price = (datetime.datetime.strptime(body['dateTo'], "%Y-%m-%d").date() - \
             datetime.datetime.strptime(body['dateFrom'], "%Y-%m-%d").date()).days * car['price']
-
+    print("_____________________________________)))))))))))))))))))))))))))))))")
     response = post_data_from_service(
         'http://' + os.environ['PAYMENT_SERVICE_HOST'] + ':' + os.environ['PAYMENT_SERVICE_PORT']
-        + '/api/v1/payment/', timeout=5, data={'price': price})
+        + '/api/v1/payment/', timeout=5, data={'price': price, 'username': username, 'carUid':body['carUid']})
 
     if response is None:
         response = delete_data_from_service(
@@ -90,7 +90,7 @@ async def post_rentals(data) -> Response:
 
     payment = response.json()
     body['paymentUid'] = payment['paymentUid']
-
+    print("servicer++++++++++++++++++++++++++++++++++++++++++++")
     response = post_data_from_service(
         'http://' + os.environ['RENTAL_SERVICE_HOST'] + ':' + os.environ['RENTAL_SERVICE_PORT']
         + '/api/v1/rental/', timeout=5, data=body, headers={'username': username})

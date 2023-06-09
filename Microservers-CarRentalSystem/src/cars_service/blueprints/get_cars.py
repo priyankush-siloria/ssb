@@ -57,13 +57,13 @@ async def get_cars() -> Response:
                 'errors': errors
             })
         )
-
+    # show_all = True
     if not show_all:
-        query = CarsModel.select().where(CarsModel.availability == True)
+        query = CarsModel.select().where(CarsModel.availability == True, CarsModel.is_active == True)
         count_total = query.count()
         cars = [car.to_dict() for car in query.paginate(page, size)]
     else:
-        count_total = CarsModel.select().count()
+        count_total = CarsModel.select().where(CarsModel.availability == True, CarsModel.is_active == True).count()
         cars = [car.to_dict() for car in CarsModel.select().paginate(page, size)]
 
     return Response(

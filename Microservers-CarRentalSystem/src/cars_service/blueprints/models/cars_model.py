@@ -3,7 +3,7 @@ from .base_model import BaseModel
 
 
 class CarsModel(BaseModel):
-    id = IdentityField()
+    id = AutoField(primary_key=True, unique=True)
     car_uid = UUIDField(unique=True, null=False)
     brand = CharField(max_length=80, null=False)
     model = CharField(max_length=80, null=False)
@@ -12,6 +12,8 @@ class CarsModel(BaseModel):
     price = IntegerField(null=False)
     availability = BooleanField(null=False)
     type = CharField(max_length=20, constraints=[Check("type IN ('SEDAN', 'SUV', 'MINIVAN', 'ROADSTER')")])
+    is_active=BooleanField(default=True)
+
 
     def to_dict(self):
         return {

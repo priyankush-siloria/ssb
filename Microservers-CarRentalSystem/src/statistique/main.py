@@ -6,6 +6,7 @@ import json
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
 from aiokafka.errors import KafkaError
 import uuid
+import ast
 
 
 app = Quart(__name__)
@@ -27,11 +28,15 @@ async def consume():
     await consumer.start()
     try:
         async for msg in consumer:
+            data = ast.literal_eval(msg.value.decode("utf-8"))
             StatistiqueModel.create(
-                username='username',
-                carname='car',
-                rentaluid=uuid.uuid4()
+                username=data['username'],
+                carID = data['carID'],
+                price = data['price'],
+                paymentID = data['paymentUid'],
+                paymentStatus = data['status']
             )
+            
     finally:
         await consumer.stop()
 

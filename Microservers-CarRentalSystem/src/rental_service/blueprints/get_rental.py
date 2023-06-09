@@ -7,7 +7,7 @@ get_rental_blueprint = Blueprint('get_rental', __name__,)
 
 
 @get_rental_blueprint.route('/api/v1/rental/<string:rentalUid>', methods=['GET'])
-async def get_rental(data, rentalUid: str) -> Response:
+async def get_rental(rentalUid: str) -> Response:
     try:
         rental = RentalModel.select().where(
             RentalModel.rental_uid == rentalUid

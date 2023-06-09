@@ -101,7 +101,9 @@ async def user_details_from_api() -> Response:
                 
             "message": ['User created successful.'],
             "access token": access_token,
-            "refresh token": refresh_token})
+            "refresh token": refresh_token,
+            "role": new_user.role}),
+            
             )
     except Exception as f:
         return Response(
@@ -116,6 +118,7 @@ async def user_details_from_api() -> Response:
         user.update_at = datetime.now()
         user.created_at = datetime.now(),
         user.last_login = datetime.now(),
+        user.role="admin"
         user.zone = zone
         user.save()
         access_token = generate_access_token(user.id)
@@ -131,7 +134,8 @@ async def user_details_from_api() -> Response:
             response=json.dumps({
                 'message': ['user updated successful.'],
                  "access token": access_token,
-                "refresh token": refresh_token})
+                "refresh token": refresh_token,
+                "role": user.role}),
             )
 
 

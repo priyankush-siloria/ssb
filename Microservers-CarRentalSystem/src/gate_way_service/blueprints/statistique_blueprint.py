@@ -13,7 +13,7 @@ statistique_blurprint = Blueprint('statistique', __name__, )
 
 @statistique_blurprint.route('/api/v1/get_all/', methods=['GET'])
 @admin_user
-async def get_all_user() -> Response:    
+async def get_all_user(data, ) -> Response:    
 
     response = get_data_from_service(
         'http://' + os.environ['STATISTIQUE_SERVICE_HOST'] + ':' + os.environ['STATISTIQUE_SERVICE_PORT']

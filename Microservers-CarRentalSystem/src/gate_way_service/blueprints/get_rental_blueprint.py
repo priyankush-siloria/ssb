@@ -23,7 +23,7 @@ async def get_rental(data, rentalUid: str, *args, **kwargs) -> Response:
     username = data.get("first_name")
     response = get_data_from_service(
         'http://' + os.environ['RENTAL_SERVICE_HOST'] + ':' + os.environ['RENTAL_SERVICE_PORT']
-        + '/api/v1/rental/'+rentalUid, timeout=5, headers={'username': username})
+        + '/api/v1/rental/'+rentalUid, timeout=5, headers={'first_name': username})
     if response is None:
         return Response(
             status=500,

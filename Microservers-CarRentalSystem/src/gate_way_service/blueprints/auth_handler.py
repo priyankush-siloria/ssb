@@ -61,6 +61,6 @@ def admin_user(f):
             return  jsonify({'message': 'you have not permission.'}), 401
 
         # Continue with the route handler
-        return await f(*args, **kwargs)
+        return await f(data, *args, **kwargs)
 
     return decorated_user

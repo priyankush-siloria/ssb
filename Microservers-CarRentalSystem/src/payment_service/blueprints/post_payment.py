@@ -4,9 +4,14 @@ from quart import Blueprint, Response, request
 from .models.payment_model import PaymentModel
 from aiokafka import AIOKafkaProducer
 import asyncio
+import os
 
+KAFKA_HOST = os.getenv('KAFKA_HOST')
+KAFKA_PORT = os.getenv('KAFKA_PORT')
+KAFKA_INSTANCE = f"{KAFKA_HOST}:{KAFKA_PORT}"
 
-KAFKA_INSTANCE = "kafka:9092"
+print(KAFKA_INSTANCE,'////////////////////////////////////666666666666666666666666666')
+
 aioproducer = None
 
 async def start_producer(loop):
@@ -21,6 +26,7 @@ post_payment_blueprint = Blueprint('post_payment', __name__,)
 def validate_body(body):
     try:
         body = json.loads(body)
+        print(body,"*****************************************")
     except:
         return None, ['Can\'t deserialize body!']
 
@@ -33,7 +39,10 @@ def validate_body(body):
 
 @post_payment_blueprint.route('/api/v1/payment/', methods=['POST'])
 async def post_payment() -> Response:
+    print("______________________________________data")
     body, errors = validate_body(await request.body)
+    print("__________________________________body", body)
+    print("++++++++++++++++++++++++++++++++++++erorrrrrrrrr", errors)
     if len(errors) > 0:
         return Response(
             status=400,
@@ -47,7 +56,16 @@ async def post_payment() -> Response:
         status='PAID'
     )
 
-    await aioproducer.send('paymentData', json.dumps(payment.to_dict()).encode("ascii"))
+    static_data = payment.to_dict()
+    print("---------------------data", static_data)
+    static_data['username'] = body['username']
+    static_data['carID'] = body['carUid']
+
+    print("++++++++++++@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    paymant")
+
+    await aioproducer.send('paymentData', json.dumps(static_data).encode("ascii"))
+    print("++++++++++++@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    paymant")
+
 
     return Response(
         status=200,

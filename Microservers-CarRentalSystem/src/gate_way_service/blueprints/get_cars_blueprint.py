@@ -11,7 +11,7 @@ get_cars_blueprint = Blueprint('get_cars', __name__, )
 
 @get_cars_blueprint.route('/api/v1/cars/', methods=['GET'])
 @token_required
-async def get_cars() -> Response:
+async def get_cars(data, *args, **kwargs) -> Response:
     response = get_data_from_service('http://' + os.environ['CARS_SERVICE_HOST'] + ':' +
                                      os.environ['CARS_SERVICE_PORT'] + '/' + 'api/v1/cars?' +
                                      request.full_path.split('?')[-1], timeout=5)

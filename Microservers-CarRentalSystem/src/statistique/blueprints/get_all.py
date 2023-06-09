@@ -9,7 +9,9 @@ get_all_detail = Blueprint('get_all', __name__, )
 async def get_all() -> Response:
     print("______________________________________________TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
     try:
-        data = await StatistiqueModel.select().dicts()
+        data = [single_data.to_dict() for single_data in StatistiqueModel.select()]
+
+        
         # finally_data = await data.execute()
 
         print(data)
@@ -19,6 +21,7 @@ async def get_all() -> Response:
     status=200,
     content_type='application/json',
     response=json.dumps({
+        "data": data
     })
     )
 
