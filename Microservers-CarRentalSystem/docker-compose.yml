@@ -74,13 +74,13 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      AUTH_APP_OKTA_BASE_URL: "dev-71449955.okta.com"
-      AUTH_SECRET_KEY: "XXXXXXXXXXXXXXXXXXXXXXX"
       DATA_BASE_PORT: "5432"
       DATA_BASE_NAME: "user_db"
       DATA_BASE_USER: "program"
       DATA_BASE_PASS: "test"
       DATA_BASE_HOST: "postgres"
+      AUTH_APP_OKTA_BASE_URL: "dev-71449955.okta.com"
+      AUTH_SECRET_KEY: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     ports:
       - "8090:8090"
 
@@ -117,7 +117,6 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      
     environment:
       DATA_BASE_PORT: "5432"
       DATA_BASE_NAME: "statistique"
@@ -148,10 +147,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
       KAFKA_MIN_INSYNC_REPLICAS: '1'
     healthcheck:
-      test: ["CMD-SHELL", "kafka-topics --bootstrap-server 127.0.0.1:9092 --topic paymentData --describe"]
-      interval: 2s
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server kafka:9092 --topic paymentData --describe"]
+      interval: 30s
       timeout: 2s
       retries: 15
+
 
   init-kafka:
     image: confluentinc/cp-kafka:latest

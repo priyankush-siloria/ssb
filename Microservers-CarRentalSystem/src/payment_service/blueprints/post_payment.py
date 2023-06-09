@@ -39,10 +39,7 @@ def validate_body(body):
 
 @post_payment_blueprint.route('/api/v1/payment/', methods=['POST'])
 async def post_payment() -> Response:
-    print("______________________________________data")
     body, errors = validate_body(await request.body)
-    print("__________________________________body", body)
-    print("++++++++++++++++++++++++++++++++++++erorrrrrrrrr", errors)
     if len(errors) > 0:
         return Response(
             status=400,
@@ -57,15 +54,10 @@ async def post_payment() -> Response:
     )
 
     static_data = payment.to_dict()
-    print("---------------------data", static_data)
     static_data['username'] = body['username']
     static_data['carID'] = body['carUid']
 
-    print("++++++++++++@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    paymant")
-
     await aioproducer.send('paymentData', json.dumps(static_data).encode("ascii"))
-    print("++++++++++++@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    paymant")
-
 
     return Response(
         status=200,

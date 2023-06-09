@@ -21,7 +21,6 @@ def car_simplify(car: dict) -> dict:
 @token_required
 async def get_rentals(data, *args, **kwargs) -> Response:
     email = data.get("email")
-    print("===================================", email)
     response = get_data_from_service(
         'http://' + os.environ['RENTAL_SERVICE_HOST'] + ':' + os.environ['RENTAL_SERVICE_PORT']
         + '/api/v1/rental', timeout=5, data={'email': email})
@@ -33,7 +32,6 @@ async def get_rentals(data, *args, **kwargs) -> Response:
                 'errors': ['Rental service is unavailable.']
             })
         )
-    print(response,"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     rentals = response.json()
     for rental in rentals:
         response = get_data_from_service(

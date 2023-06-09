@@ -31,7 +31,6 @@ def create_tables():
 async def setup():
     loop = asyncio.get_event_loop()
     await start_producer(loop)
-    print("----------------------------------------------------")
 
 
 
