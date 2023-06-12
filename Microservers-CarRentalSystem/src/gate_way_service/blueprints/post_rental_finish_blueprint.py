@@ -10,7 +10,8 @@ post_rental_finish_blueprint = Blueprint('post_rental_finish', __name__, )
 
 @post_rental_finish_blueprint.route('/api/v1/rental/<string:rentalUid>/finish', methods=['POST'])
 @token_required
-async def post_rental_finish(rentalUid: str) -> Response:
+async def post_rental_finish(data, *args, **kwargs) -> Response:
+    rentalUid = kwargs.get('rentalUid')
     response = post_data_from_service(
         'http://' + os.environ['RENTAL_SERVICE_HOST'] + ':' + os.environ['RENTAL_SERVICE_PORT']
         + '/api/v1/rental/'+rentalUid+'/finish', timeout=5)

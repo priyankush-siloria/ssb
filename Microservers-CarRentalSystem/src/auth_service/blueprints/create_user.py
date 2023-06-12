@@ -113,12 +113,12 @@ async def user_details_from_api() -> Response:
                 'Error': [f'{f}']})
             )
     else:
-        user.last_login = first_name,
-        user.token = token,
+        user.last_login = first_name
+        user.token = token
         user.update_at = datetime.now()
-        user.created_at = datetime.now(),
-        user.last_login = datetime.now(),
-        user.role="admin"
+        # user.created_at = datetime.now()
+        user.last_login = datetime.now()
+        # user.role = "admin"
         user.zone = zone
         user.save()
         access_token = generate_access_token(user.id)

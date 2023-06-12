@@ -11,11 +11,14 @@ delete_car_blueprint = Blueprint('delete_car', __name__, )
 
 @delete_car_blueprint.route('/api/v1/delete_car', methods=['DELETE'])
 @admin_user
-async def delete_car(carUid: str) -> Response:
+async def delete_car(data) -> Response:
     payload = await request.json
-
+    data = await request.get_data()
+    car_data = data.decode()
+    if not payload:
+        payload = json.loads(car_data)
     response = delete_data_from_service('http://' + os.environ['CARS_SERVICE_HOST'] + ':' +
-                                     os.environ['CARS_SERVICE_PORT'] + '/' + '/api/v1/car_delete', data=payload, timeout=5)
+                                     os.environ['CARS_SERVICE_PORT'] + '/' + 'api/v1/car_delete', data=payload, timeout=5)
 
     if response is None:
         
@@ -32,5 +35,10 @@ async def delete_car(carUid: str) -> Response:
             content_type='application/json',
             response=response.text
         )
-
-    rental = response.json()
+    else:
+        car_message = response.json()
+        return Response(
+            status=200,
+            content_type='application/json',
+            response=json.dumps(car_message)
+        )

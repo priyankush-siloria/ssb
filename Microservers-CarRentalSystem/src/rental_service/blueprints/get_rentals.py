@@ -9,12 +9,10 @@ get_rentals_blueprint = Blueprint('get_rentals', __name__,)
 
 @get_rentals_blueprint.route('/api/v1/rental/', methods=['GET'])
 async def get_rentals() -> Response:
+    payload = await request.json
     
-    
-    data = await request.get_data()
-    dict_data = parse_qs(data)
-    data = {key: value[0] for key, value in dict_data.items()}
-    user = data.get('email')
+    user = payload.get('email')
+
     rentals = [rental.to_dict() for rental in RentalModel.select().where(RentalModel.username == user)]
 
     return  Response(

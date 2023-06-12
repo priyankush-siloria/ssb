@@ -3,7 +3,7 @@ import requests
 
 def get_data_from_service(service_url, headers={}, timeout=5, data={}):
     try:
-        response = requests.get(service_url, timeout=timeout, headers=headers, data=data)
+        response = requests.get(service_url, timeout=timeout, headers=headers, json=data)
         return response
     except:
         return None

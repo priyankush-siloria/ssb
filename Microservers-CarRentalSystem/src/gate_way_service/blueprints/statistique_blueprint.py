@@ -7,11 +7,11 @@ from .service_requests import get_data_from_service
 from .auth_handler import admin_user
 
 
-statistique_blurprint = Blueprint('get_all_user', __name__, )
+get_statistique_blurprint = Blueprint('get_all_user', __name__, )
 
 
 
-@statistique_blurprint.route('/api/v1/get_all/', methods=['GET'])
+@get_statistique_blurprint.route('/api/v1/get_all/', methods=['GET'])
 @admin_user
 async def get_all_user(data, *arg, **kwargs ) -> Response: 
 

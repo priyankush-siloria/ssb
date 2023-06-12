@@ -1,16 +1,37 @@
 import { useOktaAuth } from "@okta/okta-react/";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Roles , Logoutfn } from "../Shared/constants";
+import { AdminRoutes, UserRoutes } from "../Components/Routes/Routes";
+import { AuthContext } from "../Shared/auth";
 
 const Nav = () => {
+  const [role,setRole] = useContext(AuthContext);
   const { oktaAuth, authState } = useOktaAuth();
+ 
+  console.log(role,"role in nav")
   const history = useHistory();
-  const logout = async () =>{
-     oktaAuth.signOut("/")
-    history.push('/')
-    };
+
+  useEffect(() => {
+    if(localStorage.getItem('role')!=undefined || localStorage.getItem('role')!=null)
+    setRole(localStorage.getItem("role"));
+  }, []);
+
+  if (!authState?.isAuthenticated) {
+    return;
+  }
+
+  const logout = () => {
+    /* localStorage.removeItem("role");
+    localStorage.removeItem("accesstoken");
+    oktaAuth.signOut("/");
+    history.push("/"); */
+    Logoutfn(oktaAuth)
+  };
+
+  
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg  bg-primary">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           OKTA
@@ -28,14 +49,35 @@ const Nav = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav ms-auto">
-            {authState?.isAuthenticated ? (
+            {authState?.isAuthenticated && role!="" && role!=undefined && role!=null ? (
               <>
-                
-                {/* <li className="nav-item">
-                  <Link className="nav-link" to="/protected">
-                    Protected
-                  </Link>
-                </li> */}
+                {role == Roles?.Admin.toLowerCase() ? (
+                  <>
+                  {console.log("this is admin",role)}
+                    {AdminRoutes?.map((item) => {
+                      return (
+                        <li className="nav-item">
+                          <Link className="nav-link" to={item.path}>
+                            {item.title}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    {UserRoutes?.map((item) => {
+                       {console.log("this is userroute",role)}
+                      return (
+                        <li className="nav-item">
+                          <Link className="nav-link" to={item.path}>
+                            {item.title}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </>
+                )}
                 <li className="nav-item">
                   <button onClick={logout} className=" nav-link active">
                     Logout
