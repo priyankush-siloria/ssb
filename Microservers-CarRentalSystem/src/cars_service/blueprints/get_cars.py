@@ -60,13 +60,14 @@ async def get_cars() -> Response:
     # show_all = True
     if not show_all:
         
-        query = CarsModel.select().where(CarsModel.availability == True and CarsModel.is_active == True)
+        query = CarsModel.select().where(CarsModel.is_active == True)
         count_total = query.count()
-        cars = [car.to_dict() for car in query.paginate(page, size)]
+        cars_list = [car.to_dict() for car in query.paginate(page, size)]
+        cars = [car for car in cars_list if car['available']]
     else:
         count_total = CarsModel.select().where(CarsModel.is_active == True and CarsModel.is_active == True).count()
         cars = [car.to_dict() for car in CarsModel.select().where(CarsModel.is_active == True).paginate(page, size)]
-
+        
     return Response(
         status=200,
         content_type='application/json',
