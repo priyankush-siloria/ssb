@@ -8,9 +8,10 @@ export const ApiUrls = {
   CREATE_CAR: BaseUrl + ApiVersion + "add_car/",
   LOGIN_CAR: BaseUrl + ApiVersion + "login/",
   GET_SINGLE_CAR_DETAILS : BaseUrl + ApiVersion +"car/",
-  GET_CAR_ON_RENT : BaseUrl +ApiVersion + "rental/",
+  POST_CAR_ON_RENT : BaseUrl +ApiVersion + "rental/",
   GET_ALL_USER : BaseUrl + ApiVersion + "get_all/",
-  DELETE_CAR : BaseUrl+ApiVersion +"delete_car"
+  DELETE_CAR : BaseUrl+ApiVersion +"delete_car",
+  GET_ALL_RENT_CARS: BaseUrl +ApiVersion + "rental/",
 };
 
 

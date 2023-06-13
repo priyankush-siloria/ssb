@@ -41,7 +41,6 @@ const ViewPayments = () => {
       });
       const res = await response.json();
       setUsers(res.data);
-      console.log(res.data, "Response");
     } catch (error) {
       console.log(error);
     }

@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { ApiMethods, ApiUrls } from "../../Shared/ApiUrls";
-import { Roles, carData } from "../../Shared/constants";
+import { Roles, ToastNotification, carData } from "../../Shared/constants";
 import { useHistory } from "react-router-dom";
+import InfoModal from "../../Shared/InfoModal";
+import { ToastContainer } from "react-toastify";
 
-const DrawAction = (row, hitApi) => {
+const DrawAction = (available, uid, setOpenModal, setSelectedRowId) => {
   return (
-    <button onClick={() => hitApi(row.carUid)} className="btn btn-danger">
+    <button
+    disabled={!available}
+      onClick={() => {
+        setOpenModal(true);
+        setSelectedRowId(uid);
+      }}
+      className="btn btn-danger"
+    >
       Delete
     </button>
   );
@@ -15,11 +24,14 @@ const DrawAction = (row, hitApi) => {
 const DisplayCarAdmin = () => {
   const [filterData, setFilterData] = useState();
   const history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRowId, setSelectedRowId] = useState();
 
-  const hitApi = async (carId) => {
+  const hitApi = async () => {
     const payload = {
-      carUid: carId,
+      carUid: selectedRowId,
     };
+    console.log(payload, "delete payload");
     try {
       const response = await fetch(ApiUrls.DELETE_CAR, {
         method: ApiMethods.DELETE,
@@ -29,10 +41,16 @@ const DisplayCarAdmin = () => {
         },
       });
       const res = await response.json();
+      console.log(response,"erorr")
       if (response.status == 201 || response.status == 200) {
         //callback("Car is deleted Succesfully", "success");
         getAllCars();
+        handleClose()
+       
+       
+
       } else if (response.status >= 400 || response.status <= 499) {
+        ToastNotification(res.Message,"success")
         //callback(res.Message, "warn");
       } else {
         //callback(res.Message, "warn");
@@ -81,7 +99,7 @@ const DisplayCarAdmin = () => {
     {
       name: "Action",
       cell: (row) => {
-        return DrawAction(row, hitApi);
+        return DrawAction(row.available ,row.carUid, setOpenModal, setSelectedRowId);
       },
     },
   ];
@@ -95,46 +113,59 @@ const DisplayCarAdmin = () => {
         },
       });
       const res = await response.json();
+        
       if (response.status >= 200 || response.status <= 299) {
         //callback(res.Message, "success");
-
+        ToastNotification(res.Message,"success")
         setFilterData(res.items);
-      } else if (response.status >= 400 || response.status <= 499) {
+      } else if (response.status == 403) {
         //callback(res.Message, "warn");
+        console.log("working")
+        ToastNotification("Car cannot be deleted. It is on Rent!", "warn")
       } else {
         //callback(res.Message, "warn");
       }
     } catch (err) {
       console.log("errror", err);
-      //callback("Something went wrong", "error");
+     
     }
   }
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setSelectedRowId("");
+  };
 
   useEffect(() => {
     getAllCars();
   }, []);
   return (
-    <div className="container">
-      <div className="row">
-        {filterData?.length ? (
+    <>
+      <div className="container">
+        <div className="row">
+          {filterData?.length ? (
+            <div className="col-md-12">
+              <h3 className="heading mt-4">List of cars</h3>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="col-md-12">
-            <h3 className="heading mt-4">List of cars</h3>
+            <DataTable
+              className=""
+              fixedHeader
+              data={filterData}
+              columns={Columns}
+              pagination
+              subHeader
+            />
           </div>
-        ) : (
-          ""
-        )}
-        <div className="col-md-12">
-          <DataTable
-            className=""
-            fixedHeader
-            data={filterData}
-            columns={Columns}
-            pagination
-            subHeader
-          />
         </div>
       </div>
-    </div>
+            
+      <InfoModal open={openModal} confirm={hitApi} handleClose={handleClose} />
+      <ToastContainer/>
+    </>
   );
 };
 

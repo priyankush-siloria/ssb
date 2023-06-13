@@ -38,7 +38,7 @@ const CreateCarAdmin = () => {
         callback(res.Message, "warn");
       }
     } catch (err) {
-      //console.log("errror", err);
+      
       callback("Something went wrong", "error");
     } finally {
       setLoader(false);
@@ -46,7 +46,7 @@ const CreateCarAdmin = () => {
   }
 
   const submitHandler = (data) => {
-    console.log(data, "see data for select");
+   
     const payload = {
       brand: data.brand,
       model: data.model,
@@ -114,7 +114,6 @@ const CreateCarAdmin = () => {
                 <Select
                  className=" mt-2"
                   onChange={(e) => {
-                    console.log(e);
                     setCarType(e);
                   }}
                   options={options}

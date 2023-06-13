@@ -1,25 +1,26 @@
 export const AdminRoutes = [
-    {
-      path: "/allCars",
-      title: "All Cars",
-    },
-    {
-      path: "/createcar",
-      title: "Add Car",
-    },
-    // {
-    //     path: "/cars",
-    //     title: "View Car",
-    //   }
-    {
-        path: "/users",
-        title:"All Payments"
-      }
-  ];
+  {
+    path: "/allCars",
+    title: "Car Listing",
+  },
+  {
+    path: "/createcar",
+    title: "Add Car",
+  },
+  {
+    path: "/users",
+    title: "Payments",
+  },
   
- export  const UserRoutes = [
-    {
-      path: "/cars",
-      title: "View Car",
-    },
-  ];
+];
+
+export const UserRoutes = [
+  {
+    path: "/cars",
+    title: "View Car",
+  },
+  {
+    path: "/rentallisting",
+    title: "Rental Listing",
+  },
+];

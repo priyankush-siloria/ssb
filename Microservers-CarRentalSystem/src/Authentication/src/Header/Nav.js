@@ -9,7 +9,6 @@ const Nav = () => {
   const [role,setRole] = useContext(AuthContext);
   const { oktaAuth, authState } = useOktaAuth();
  
-  console.log(role,"role in nav")
   const history = useHistory();
 
   useEffect(() => {
@@ -53,10 +52,9 @@ const Nav = () => {
               <>
                 {role == Roles?.Admin.toLowerCase() ? (
                   <>
-                  {console.log("this is admin",role)}
                     {AdminRoutes?.map((item) => {
                       return (
-                        <li className="nav-item">
+                        <li key={item.title} className="nav-item">
                           <Link className="nav-link" to={item.path}>
                             {item.title}
                           </Link>
@@ -67,9 +65,8 @@ const Nav = () => {
                 ) : (
                   <>
                     {UserRoutes?.map((item) => {
-                       {console.log("this is userroute",role)}
                       return (
-                        <li className="nav-item">
+                        <li key={item.title} className="nav-item">
                           <Link className="nav-link" to={item.path}>
                             {item.title}
                           </Link>

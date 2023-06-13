@@ -14,6 +14,7 @@ import GeCarOnRent from "./Components/User/GeCarOnRent";
 import { PaymentContextProvider } from "./Shared/paymentDetails";
 import PaymentSlip from "./Components/User/PaymentSlip";
 import ViewPayments from "./Components/Adminpages/ViewPayments";
+import Rentallisinting from "./Components/Adminpages/Rentallisinting";
 
 const App = () => {
   const history = useHistory();
@@ -34,6 +35,7 @@ const App = () => {
           <SecureRoute path="/users" component={ViewPayments} />
           <SecureRoute path="/car/detail/:id" component={GeCarOnRent} />
           <SecureRoute path="/payments" component={PaymentSlip} />
+          <SecureRoute path="/rentallisting" component={Rentallisinting} />
           <Route path="/login/callback" component={LoginCallback} />
         </PaymentContextProvider>
       </AuthContextProvider>

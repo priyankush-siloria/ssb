@@ -41,7 +41,6 @@ const GeCarOnRent = () => {
 
       if (response.status >= 200 || response.status <= 299) {
         callback(res.Message, "success");
-        //console.log(res, "response of indivual car");
         setCar(res);
       } else if (response.status == 401) {
       } else if (response.status >= 402 || response.status <= 499) {
@@ -63,7 +62,7 @@ const GeCarOnRent = () => {
 
   async function postRentCarDetailsFn(payload, callback) {
     try {
-      const response = await fetch(ApiUrls.GET_CAR_ON_RENT, {
+      const response = await fetch(ApiUrls.POST_CAR_ON_RENT, {
         method: ApiMethods.POST,
         body: JSON.stringify(payload),
         headers: {
@@ -72,8 +71,7 @@ const GeCarOnRent = () => {
       });
 
       const res = await response.json();
-      console.log(res, "response");
-
+      
       if (response.status >= 200 || response.status <= 299) {
         setPaymentDetails(res);
         history.push("/payments");
