@@ -9,7 +9,7 @@ export const AdminRoutes = [
   },
   {
     path: "/users",
-    title: "Payments",
+    title: "Statistique",
   },
   
 ];
