@@ -31,7 +31,7 @@ const DisplayCarAdmin = () => {
     const payload = {
       carUid: selectedRowId,
     };
-    console.log(payload, "delete payload");
+    
     try {
       const response = await fetch(ApiUrls.DELETE_CAR, {
         method: ApiMethods.DELETE,
@@ -41,7 +41,7 @@ const DisplayCarAdmin = () => {
         },
       });
       const res = await response.json();
-      console.log(response,"erorr")
+     
       if (response.status == 201 || response.status == 200) {
         //callback("Car is deleted Succesfully", "success");
         getAllCars();
@@ -120,7 +120,7 @@ const DisplayCarAdmin = () => {
         setFilterData(res.items);
       } else if (response.status == 403) {
         //callback(res.Message, "warn");
-        console.log("working")
+      
         ToastNotification("Car cannot be deleted. It is on Rent!", "warn")
       } else {
         //callback(res.Message, "warn");

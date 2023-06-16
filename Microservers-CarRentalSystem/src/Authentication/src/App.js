@@ -14,7 +14,8 @@ import GeCarOnRent from "./Components/User/GeCarOnRent";
 import { PaymentContextProvider } from "./Shared/paymentDetails";
 import PaymentSlip from "./Components/User/PaymentSlip";
 import ViewPayments from "./Components/Adminpages/ViewPayments";
-import Rentallisinting from "./Components/Adminpages/Rentallisinting";
+import CreateOktaUser from "./Components/Adminpages/CreateOktaUser";
+import Rentallisinting from "./Components/User/Rentallisinting";
 
 const App = () => {
   const history = useHistory();
@@ -36,6 +37,7 @@ const App = () => {
           <SecureRoute path="/car/detail/:id" component={GeCarOnRent} />
           <SecureRoute path="/payments" component={PaymentSlip} />
           <SecureRoute path="/rentallisting" component={Rentallisinting} />
+          <SecureRoute path="/addoktauser" component={CreateOktaUser} />
           <Route path="/login/callback" component={LoginCallback} />
         </PaymentContextProvider>
       </AuthContextProvider>
