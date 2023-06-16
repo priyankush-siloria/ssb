@@ -21,14 +21,6 @@ def car_simplify(car: dict) -> dict:
 @token_required
 async def get_rentals(data, *args, **kwargs) -> Response:
     username = data.get("email")
-    # if 'X-User-Name' not in request.headers.keys():
-    #     return Response(
-    #         status=400,
-    #         content_type='application/json',
-    #         response=json.dumps({
-    #             'errors': ['Request has not X-User-Name header!']
-    #         }))
-    print("-------------------------------username  ", username)
     response = get_data_from_service(
         'http://' + os.environ['RENTAL_SERVICE_HOST'] + ':' + os.environ['RENTAL_SERVICE_PORT']
         + '/api/v1/rental', timeout=5, data={'email': username})

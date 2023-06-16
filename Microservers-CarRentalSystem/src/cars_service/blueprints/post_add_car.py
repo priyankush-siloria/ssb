@@ -52,9 +52,15 @@ async def add_cars( *args, **kwargs) -> Response:
     )
 
     try:
-        # with pg_db.atomic():
-        car = CarsModel.select().where(CarsModel.car_uid == car_uid).get()
-        print(car)
+        with pg_db.atomic():
+            CarsModel.select().where(CarsModel.registration_number == registration_number).get()
+            return  Response(
+                status=403,
+                content_type='application/json',
+                response=json.dumps({   
+                "message": ['Car Registration number already exists.'],
+                })
+                )
     except DoesNotExist :
         CarsModel.create(
         car_uid = car_uid,

@@ -1,3 +1,7 @@
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
 export const AdminRoutes = [
   {
     path: "/allCars",
@@ -11,6 +15,10 @@ export const AdminRoutes = [
     path: "/users",
     title: "Statistique",
   },
+  {
+    path:'/addoktauser',
+    title:'Add user'
+  }
   
 ];
 
@@ -22,5 +30,8 @@ export const UserRoutes = [
   {
     path: "/rentallisting",
     title: "Rental Listing",
-  },
+  }
 ];
+
+
+
