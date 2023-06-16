@@ -28,12 +28,11 @@ const CreateCarAdmin = () => {
         },
       });
       const res = await response.json();
-
       if (response.status == 201 || response.status == 200) {
-        callback("Post is created Succesfully", "success");
+        callback(res.message[0], "success");
            // history.push('/allcars')
       } else if (response.status >= 400 || response.status <= 499) {
-        callback(res.Message, "warn");
+        callback(res.message[0], "warn");
       } else {
         callback(res.Message, "warn");
       }

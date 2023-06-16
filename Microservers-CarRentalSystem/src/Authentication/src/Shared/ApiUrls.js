@@ -12,6 +12,7 @@ export const ApiUrls = {
   GET_ALL_USER : BaseUrl + ApiVersion + "get_all/",
   DELETE_CAR : BaseUrl+ApiVersion +"delete_car",
   GET_ALL_RENT_CARS: BaseUrl +ApiVersion + "rental/",
+  POST_OKTA_USER :`https://${process.env.REACT_APP_OKTA_BASE_URL}${ApiVersion}users?activate=false`
 };
 
 

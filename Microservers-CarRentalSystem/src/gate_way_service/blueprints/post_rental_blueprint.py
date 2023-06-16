@@ -121,7 +121,7 @@ async def post_rentals(data) -> Response:
     del rental['paymentUid']
 
     return Response(
-        status=200,
+        status=response.status_code,
         content_type='application/json',
         response=json.dumps(rental)
     )

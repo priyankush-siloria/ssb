@@ -52,8 +52,6 @@ def user_details_token(access_token):
 
 @post_user_details_from_api.route('/api/v1/create_user/', methods=['POST'])
 async def user_details_from_api() -> Response:
-    url = "http://auth_service:8000/callback/"
-    print(app_scret_key,"@!###########################$R%^&&&&&&&&&&&&&&&&&&&&&&&&&&")
     token = await request.get_json()
     token = token["accessToken"]
     user_details=user_details_token(access_token=token)
@@ -115,10 +113,8 @@ async def user_details_from_api() -> Response:
     else:
         user.last_login = first_name
         user.token = token
-        user.update_at = datetime.now()
-        # user.created_at = datetime.now()
+        user.updated_at = datetime.now()
         user.last_login = datetime.now()
-        # user.role = "admin"
         user.zone = zone
         user.save()
         access_token = generate_access_token(user.id)
@@ -152,25 +148,3 @@ def verify_jwt_token(token, app_scret_key):
         return False, None
     except jwt.InvalidTokenError:
         return False, None
-
-
-def get_user_detail(token):
-    is_valid, payload = verify_jwt_token("token", app_scret_key)
-
-    if is_valid:
-        user_detail = {}
-        user_id = payload.get("user_id")
-        username = payload.get("username")
-        print(f"User ID: {user_id}")
-        print(f"Username: {username}")
-        print(payload)
-        try:
-            user = UserModel.get(UserModel.id == user_id)
-            user_detail["username"] = user.username
-            user_detail['email'] = user.email
-            return user_detail
-        except DoesNotExist:
-            return None
-    else:
-        return "Tokne is expired"
-        

@@ -7,7 +7,7 @@ class CarsModel(BaseModel):
     car_uid = UUIDField(unique=True, null=False)
     brand = CharField(max_length=80, null=False)
     model = CharField(max_length=80, null=False)
-    registration_number = CharField(max_length=20, null=False)
+    registration_number = CharField(max_length=20, null=False, unique=True)
     power = IntegerField()
     price = IntegerField(null=False)
     availability = BooleanField(null=False)

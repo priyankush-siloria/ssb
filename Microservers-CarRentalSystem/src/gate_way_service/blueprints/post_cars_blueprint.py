@@ -32,7 +32,7 @@ async def add_car(data, *args, **kwargs) -> Response:
             })
         )
     return  Response(
-        status=200,
+        status=response.status_code,
         content_type='application/json',
         response=json.dumps(response.json())
     )
